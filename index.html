@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="cs">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Royal Flush Casino</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="ambient ambient-left"></div>
+    <div class="ambient ambient-right"></div>
+
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="brand-wrap">
+          <div class="brand-mark">♠</div>
+          <div>
+            <p class="eyebrow">premium casino</p>
+            <h1>Royal Flush</h1>
+          </div>
+        </div>
+
+        <div class="wallet-box">
+          <span>Peněženka</span>
+          <strong id="wallet-value">$1000</strong>
+        </div>
+      </header>
+
+      <main class="lobby-shell">
+        <section id="lobby-view" class="lobby-view visible">
+          <div class="lobby-header">
+            <p class="eyebrow">vyber hru</p>
+            <h2>Všechny hry</h2>
+            <p class="lobby-deck">Čtyři stoly, jedna peněženka, virtuální kredity.</p>
+          </div>
+
+          <section class="session-overview" aria-label="Přehled herní session">
+            <div class="session-metrics">
+              <div class="session-metric"><span>Odehraná kola</span><strong id="session-played">0</strong></div>
+              <div class="session-metric"><span>Výhry</span><strong id="session-wins">0</strong></div>
+              <div class="session-metric"><span>Čistý výsledek</span><strong id="session-net">$0</strong></div>
+            </div>
+            <div class="session-history">
+              <div class="history-heading"><span class="eyebrow">poslední tahy</span><span id="session-history-count">0 / 5</span></div>
+              <ol id="session-history" class="history-list"><li class="history-empty">Zatím bez odehraných kol</li></ol>
+            </div>
+          </section>
+
+          <div class="lobby-grid">
+            <button class="game-card" data-game="slots">
+              <span class="game-ribbon">jackpot</span>
+              <span class="game-icon">🎰</span>
+              <h3>Lucky Slots</h3>
+              <p>Rychlá kola, jiskřivé výhry a bonusová roztočení.</p>
+              <span class="game-card-detail"><span>Vklad od $1</span><span>Výhra až 10×</span></span>
+              <span class="cta">Hrát hru</span>
+            </button>
+
+            <button class="game-card" data-game="craps">
+              <span class="game-ribbon">classic</span>
+              <span class="game-icon">🎲</span>
+              <h3>Craps</h3>
+              <p>Hod kostkami, bodové série a vysoké nervy u hracího stolu.</p>
+              <span class="game-card-detail"><span>Vklad od $1</span><span>Pass Line 1:1</span></span>
+              <span class="cta">Hrát hru</span>
+            </button>
+
+            <button class="game-card" data-game="blackjack">
+              <span class="game-ribbon">high stakes</span>
+              <span class="game-icon">🂡</span>
+              <h3>Blackjack</h3>
+              <p>Strategické karty, počítání a odvážné riskování proti dealeri.</p>
+              <span class="game-card-detail"><span>Vklad od $1</span><span>Výplata 1:1</span></span>
+              <span class="cta">Hrát hru</span>
+            </button>
+
+            <button class="game-card" data-game="roulette">
+              <span class="game-ribbon">live wheel</span>
+              <span class="game-icon">🎡</span>
+              <h3>Roulette</h3>
+              <p>Točení kola, barvy a šance, které mění běh celého večera.</p>
+              <span class="game-card-detail"><span>37 políček</span><span>Barva 1:1</span></span>
+              <span class="cta">Hrát hru</span>
+            </button>
+          </div>
+        </section>
+
+        <section id="game-stage" class="game-stage">
+          <button id="back-to-lobby" class="back-btn">← Zpět do lobby</button>
+
+          <div class="stage-nav">
+            <button class="game-btn active" data-game="slots">Slots</button>
+            <button class="game-btn" data-game="craps">Craps</button>
+            <button class="game-btn" data-game="blackjack">Blackjack</button>
+            <button class="game-btn" data-game="roulette">Roulette</button>
+          </div>
+
+          <div class="game-panel">
+            <div id="slots-game" class="game-screen active">
+              <div class="screen-header">
+                <h3>Lucky Slots</h3>
+                <p class="game-brief">2 stejné symboly vrací 2× vklad · 3 stejné vrací 10× vklad</p>
+              </div>
+
+              <div class="bet-row">
+                <label>Vklad</label>
+                <div class="bet-buttons">
+                  <button class="slot-bet" data-amount="1">$1</button>
+                  <button class="slot-bet active" data-amount="5">$5</button>
+                  <button class="slot-bet" data-amount="10">$10</button>
+                  <button class="slot-bet" data-amount="25">$25</button>
+                  <button class="slot-bet" data-amount="50">$50</button>
+                  <button class="slot-bet" data-amount="100">$100</button>
+                  <button class="slot-bet" data-amount="250">$250</button>
+                </div>
+                <div class="custom-bet">
+                  <label for="slots-custom-bet">Vlastní sázka</label>
+                  <input id="slots-custom-bet" class="custom-bet-input" type="number" min="1" step="1" inputmode="numeric" placeholder="$ částka" />
+                  <button class="secondary-btn apply-custom-bet" data-game="slots">Použít</button>
+                </div>
+              </div>
+
+              <div class="reels" id="slots-reels">
+                <div class="reel" data-index="0"><div class="reel-symbol">7</div></div>
+                <div class="reel" data-index="1"><div class="reel-symbol">7</div></div>
+                <div class="reel" data-index="2"><div class="reel-symbol">7</div></div>
+              </div>
+
+              <div class="action-row">
+                <button id="slots-spin" class="primary-btn">Točit</button>
+              </div>
+
+              <div id="slots-status" class="status-box">Vyber vklad a toč.</div>
+            </div>
+
+            <div id="craps-game" class="game-screen">
+              <div class="screen-header">
+                <h3>Craps</h3>
+                <p class="game-brief">Pass Line: 7 nebo 11 vyhrává · vytvořený bod musí padnout před 7</p>
+              </div>
+
+              <div class="info-row">
+                <div class="mini-box">
+                  <span>Sázka</span>
+                  <strong id="craps-wager">$25</strong>
+                </div>
+                <div class="mini-box">
+                  <span>Typ</span>
+                  <strong id="craps-bet-type">Pass Line</strong>
+                </div>
+                <div class="mini-box">
+                  <span>Point</span>
+                  <strong id="craps-point">—</strong>
+                </div>
+              </div>
+
+              <div class="dice-panel">
+                <div id="die-1" class="die" aria-label="První kostka"></div>
+                <div id="die-2" class="die" aria-label="Druhá kostka"></div>
+              </div>
+
+              <div class="controls-stack">
+                <div class="bet-type-group">
+                  <button class="craps-bet active" data-type="pass">Pass Line</button>
+                  <button class="craps-bet" data-type="dont-pass">Don’t Pass</button>
+                  <button class="craps-bet" data-type="field">Field</button>
+                </div>
+
+                <div class="bet-buttons">
+                  <button class="craps-bet-amount" data-amount="1">$1</button>
+                  <button class="craps-bet-amount active" data-amount="5">$5</button>
+                  <button class="craps-bet-amount" data-amount="10">$10</button>
+                  <button class="craps-bet-amount" data-amount="25">$25</button>
+                  <button class="craps-bet-amount" data-amount="50">$50</button>
+                  <button class="craps-bet-amount" data-amount="100">$100</button>
+                  <button class="craps-bet-amount" data-amount="250">$250</button>
+                </div>
+
+                <div class="custom-bet">
+                  <label for="craps-custom-bet">Vlastní sázka</label>
+                  <input id="craps-custom-bet" class="custom-bet-input" type="number" min="1" step="1" inputmode="numeric" placeholder="$ částka" />
+                  <button class="secondary-btn apply-custom-bet" data-game="craps">Použít</button>
+                </div>
+
+                <div class="action-row">
+                  <button id="craps-roll" class="primary-btn">Hoď kostkami</button>
+                </div>
+              </div>
+
+              <div id="craps-status" class="status-box">Vítej v kasinu. Vyber sázku a hod kostkami.</div>
+            </div>
+
+            <div id="blackjack-game" class="game-screen">
+              <div class="screen-header">
+                <h3>Blackjack</h3>
+                <p class="game-brief">Dealer stojí na 17 · běžná výhra vrací 1:1 · eso má hodnotu 1 nebo 11</p>
+              </div>
+
+              <div class="bj-room-panel">
+                <div class="bj-room-actions">
+                  <button id="bj-host" class="secondary-btn">Vytvořit online stůl</button>
+                  <input id="bj-room-code" type="text" maxlength="6" inputmode="numeric" placeholder="Kód místnosti" aria-label="Kód místnosti" />
+                  <button id="bj-join" class="secondary-btn">Připojit se</button>
+                </div>
+                <div class="bj-room-meta">
+                  <span id="bj-room-status" role="status">Hraješ offline. Vytvoř stůl nebo zadej kód kamaráda.</span>
+                  <strong id="bj-room-display" hidden></strong>
+                </div>
+              </div>
+
+              <div class="bet-row">
+                <label>Vklad</label>
+                <div class="bet-buttons">
+                  <button class="bj-bet" data-amount="5">$5</button>
+                  <button class="bj-bet active" data-amount="10">$10</button>
+                  <button class="bj-bet" data-amount="25">$25</button>
+                  <button class="bj-bet" data-amount="50">$50</button>
+                  <button class="bj-bet" data-amount="100">$100</button>
+                  <button class="bj-bet" data-amount="250">$250</button>
+                  <button class="bj-bet" data-amount="500">$500</button>
+                </div>
+                <div class="custom-bet">
+                  <label for="blackjack-custom-bet">Vlastní sázka</label>
+                  <input id="blackjack-custom-bet" class="custom-bet-input" type="number" min="1" step="1" inputmode="numeric" placeholder="$ částka" />
+                  <button class="secondary-btn apply-custom-bet" data-game="blackjack">Použít</button>
+                </div>
+              </div>
+
+              <div class="action-row">
+                <button id="bj-deal" class="primary-btn">Rozdat</button>
+                <button id="bj-hit" class="secondary-btn">Hit</button>
+                <button id="bj-stand" class="secondary-btn">Stand</button>
+              </div>
+
+              <div class="hand-zone">
+                <div class="hand-box">
+                  <h4>Dealer</h4>
+                  <div id="dealer-cards" class="cards-row"></div>
+                </div>
+                <div class="hand-box" id="bj-host-seat">
+                  <h4>Ty (host)</h4>
+                  <div id="player-cards" class="cards-row"></div>
+                </div>
+                <div class="hand-box" id="bj-guest-seat" hidden>
+                  <h4>Kamarád</h4>
+                  <div id="guest-cards" class="cards-row"></div>
+                </div>
+              </div>
+
+              <div id="bj-status" class="status-box">Rozdej novou ruku.</div>
+            </div>
+
+            <div id="roulette-game" class="game-screen">
+              <div class="screen-header">
+                <h3>Roulette</h3>
+                <p class="game-brief">Evropské kolo 0–36 · červená, černá, sudá a lichá platí 1:1</p>
+              </div>
+
+              <div class="bet-row">
+                <label>Vklad</label>
+                <div class="bet-buttons">
+                  <button class="roulette-bet" data-amount="1">$1</button>
+                  <button class="roulette-bet active" data-amount="5">$5</button>
+                  <button class="roulette-bet" data-amount="10">$10</button>
+                  <button class="roulette-bet" data-amount="25">$25</button>
+                  <button class="roulette-bet" data-amount="50">$50</button>
+                  <button class="roulette-bet" data-amount="100">$100</button>
+                  <button class="roulette-bet" data-amount="250">$250</button>
+                </div>
+                <div class="custom-bet">
+                  <label for="roulette-custom-bet">Vlastní sázka</label>
+                  <input id="roulette-custom-bet" class="custom-bet-input" type="number" min="1" step="1" inputmode="numeric" placeholder="$ částka" />
+                  <button class="secondary-btn apply-custom-bet" data-game="roulette">Použít</button>
+                </div>
+              </div>
+
+              <div class="roulette-wheel-wrap">
+                <div class="roulette-pointer" aria-hidden="true"></div>
+                <div class="roulette-bowl">
+                  <div id="roulette-wheel" class="roulette-wheel" aria-label="Ruletové kolo">
+                    <div id="roulette-pockets" class="roulette-pockets"></div>
+                    <div class="roulette-track" aria-hidden="true"></div>
+                    <div id="roulette-ball-orbit" class="roulette-ball-orbit" aria-hidden="true">
+                      <span id="roulette-ball" class="roulette-ball"></span>
+                    </div>
+                    <div class="roulette-hub" aria-hidden="true"><span id="roulette-result">RF</span></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="roulette-readout" aria-live="polite">
+                <div class="roulette-readout-item"><span>Vklad u kola</span><strong id="roulette-current-bet">$5</strong></div>
+                <div class="roulette-readout-item"><span>Vybraný tip</span><strong id="roulette-current-choice">Červená</strong></div>
+                <div class="roulette-readout-item"><span>Možná výplata</span><strong id="roulette-potential-payout">$10</strong></div>
+              </div>
+
+              <div class="roulette-betting-layout">
+                <div class="roulette-board-heading">
+                  <h4>Sázková tabule</h4>
+                  <span>Klikni na číslo nebo vnější sázku</span>
+                </div>
+                <div class="roulette-betting-table">
+                  <div id="roulette-number-board" class="roulette-number-board" aria-label="Číselná tabule evropské rulety"></div>
+                  <div class="roulette-outside-row roulette-dozen-row">
+                    <button class="roulette-selection roulette-dozen-choice" data-choice="dozen-1">1. tucet <span>2 : 1</span></button>
+                    <button class="roulette-selection roulette-dozen-choice" data-choice="dozen-2">2. tucet <span>2 : 1</span></button>
+                    <button class="roulette-selection roulette-dozen-choice" data-choice="dozen-3">3. tucet <span>2 : 1</span></button>
+                  </div>
+                  <div class="roulette-outside-row roulette-even-money-row">
+                    <button class="roulette-selection roulette-outside-choice" data-choice="low">1–18</button>
+                    <button class="roulette-selection roulette-outside-choice" data-choice="even">Sudá</button>
+                    <button class="roulette-selection roulette-outside-choice roulette-red-choice" data-choice="red">Červená</button>
+                    <button class="roulette-selection roulette-outside-choice roulette-black-choice" data-choice="black">Černá</button>
+                    <button class="roulette-selection roulette-outside-choice" data-choice="odd">Lichá</button>
+                    <button class="roulette-selection roulette-outside-choice" data-choice="high">19–36</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="action-row">
+                <button id="roulette-spin" class="primary-btn">Roztočit</button>
+              </div>
+
+              <div id="roulette-status" class="status-box">Vyber číslo nebo sázku na tabuli a roztoč kolo.</div>
+
+              <div class="roulette-details">
+                <section class="roulette-history-panel" aria-label="Poslední výsledky rulety">
+                  <div class="detail-heading"><h4>Poslední výsledky</h4><span>Nejnovější první</span></div>
+                  <ol id="roulette-history" class="roulette-history-list"><li class="roulette-history-empty">Kolo ještě nebylo roztočeno</li></ol>
+                </section>
+                <section class="roulette-payout-panel" aria-label="Přehled výplat rulety">
+                  <div class="detail-heading"><h4>Výplaty</h4><span>Evropská ruleta</span></div>
+                  <div class="payout-row"><span>Červená / černá</span><strong>1 : 1</strong></div>
+                  <div class="payout-row"><span>Sudá / lichá</span><strong>1 : 1</strong></div>
+                  <div class="payout-row"><span>Tucet / sloupec</span><strong>2 : 1</strong></div>
+                  <div class="payout-row"><span>Jedno číslo</span><strong>35 : 1</strong></div>
+                  <div class="payout-row"><span>Zelená nula</span><strong>0</strong></div>
+                </section>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/peerjs@1.5.4/dist/peerjs.min.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
